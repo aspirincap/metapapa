@@ -1,0 +1,10 @@
+{
+  "name": "metapapa-runtime",
+  "version": "1.6.1",
+  "private": true,
+  "type": "module",
+  "description": "Optional AdsPower runtime; existing Chrome and local tools need no npm install.",
+  "dependencies": {
+    "puppeteer-core": "25.16.0"
+  }
+}

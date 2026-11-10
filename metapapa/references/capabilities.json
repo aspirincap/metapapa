@@ -1,0 +1,2383 @@
+{
+  "version": "1.6.1",
+  "notice": "Examples use synthetic IDs. Never use them as real targets. Meta requests execute inside the selected Chrome or AdsPower webpage; ad account writes are blocked by default.",
+  "operations": [
+    {
+      "name": "identity.me",
+      "description": "当前网页 Token 的 Facebook 身份",
+      "params": [],
+      "write": false,
+      "paginated": false,
+      "source": "",
+      "verification": "read_verified_2026-11-10",
+      "verified_at": "2026-11-10T07:29:10.308Z",
+      "default_write_allowed": true,
+      "example_parameters": {},
+      "request_example": {
+        "kind": "graph",
+        "origin": "https://adsmanager-graph.facebook.com",
+        "path": "/v16.0/me",
+        "method": "GET",
+        "query": {
+          "fields": "id,name"
+        }
+      }
+    },
+    {
+      "name": "accounts.list",
+      "description": "广告账户列表",
+      "params": [
+        "limit?",
+        "after?"
+      ],
+      "write": false,
+      "paginated": true,
+      "source": "",
+      "verification": "read_verified_2026-11-10",
+      "verified_at": "2026-11-10T07:29:10.308Z",
+      "default_write_allowed": true,
+      "example_parameters": {},
+      "request_example": {
+        "kind": "graph",
+        "origin": "https://adsmanager-graph.facebook.com",
+        "path": "/v16.0/me/adaccounts",
+        "method": "GET",
+        "query": {
+          "fields": "id,account_id,name,account_status,currency,timezone_name,business,amount_spent,balance",
+          "limit": 100
+        }
+      }
+    },
+    {
+      "name": "accounts.get",
+      "description": "广告账户详情",
+      "params": [
+        "accountId"
+      ],
+      "write": false,
+      "paginated": false,
+      "source": "",
+      "verification": "read_verified_2026-11-10",
+      "verified_at": "2026-11-10T07:29:10.308Z",
+      "default_write_allowed": true,
+      "example_parameters": {
+        "accountId": "123"
+      },
+      "request_example": {
+        "kind": "graph",
+        "origin": "https://adsmanager-graph.facebook.com",
+        "path": "/v16.0/act_123",
+        "method": "GET",
+        "query": {
+          "fields": "id,account_id,name,account_status,currency,timezone_name,business,amount_spent,balance,spend_cap"
+        }
+      }
+    },
+    {
+      "name": "accounts.access",
+      "description": "账户人员与权限原始关系",
+      "params": [
+        "accountId"
+      ],
+      "write": false,
+      "paginated": false,
+      "source": "",
+      "verification": "implemented_pending_live",
+      "verified_at": null,
+      "default_write_allowed": true,
+      "example_parameters": {
+        "accountId": "123"
+      },
+      "request_example": {
+        "kind": "graph",
+        "origin": "https://adsmanager-graph.facebook.com",
+        "path": "/v16.0/act_123",
+        "method": "GET",
+        "query": {
+          "fields": "id,name,users.limit(500),userpermissions.limit(500),agencies,owner_business"
+        }
+      }
+    },
+    {
+      "name": "accounts.spendCap",
+      "description": "账户花费限额",
+      "params": [
+        "accountId"
+      ],
+      "write": false,
+      "paginated": false,
+      "source": "",
+      "verification": "read_verified_2026-11-10",
+      "verified_at": "2026-11-10T07:29:10.308Z",
+      "default_write_allowed": true,
+      "example_parameters": {
+        "accountId": "123"
+      },
+      "request_example": {
+        "kind": "graph",
+        "origin": "https://adsmanager-graph.facebook.com",
+        "path": "/v16.0/act_123",
+        "method": "GET",
+        "query": {
+          "fields": "id,spend_cap,currency"
+        }
+      }
+    },
+    {
+      "name": "accounts.rename",
+      "description": "重命名广告账户",
+      "params": [
+        "accountId",
+        "name"
+      ],
+      "write": true,
+      "paginated": false,
+      "source": "",
+      "verification": "implemented_unverified_write",
+      "verified_at": null,
+      "default_write_allowed": false,
+      "example_parameters": {
+        "accountId": "123",
+        "name": "Example"
+      },
+      "request_example": {
+        "kind": "graph",
+        "origin": "https://adsmanager-graph.facebook.com",
+        "path": "/v18.0/act_123",
+        "method": "POST",
+        "query": {},
+        "body": {
+          "name": "Example"
+        }
+      }
+    },
+    {
+      "name": "accounts.spendCap.set",
+      "description": "设置账户限额，保持接口金额单位",
+      "params": [
+        "accountId",
+        "amount"
+      ],
+      "write": true,
+      "paginated": false,
+      "source": "",
+      "verification": "implemented_unverified_write",
+      "verified_at": null,
+      "default_write_allowed": false,
+      "example_parameters": {
+        "accountId": "123",
+        "amount": "100"
+      },
+      "request_example": {
+        "kind": "graph",
+        "origin": "https://adsmanager-graph.facebook.com",
+        "path": "/v16.0/act_123",
+        "method": "POST",
+        "query": {},
+        "body": {
+          "spend_cap": "100"
+        }
+      }
+    },
+    {
+      "name": "accounts.spendCap.remove",
+      "description": "移除账户限额",
+      "params": [
+        "accountId"
+      ],
+      "write": true,
+      "paginated": false,
+      "source": "",
+      "verification": "implemented_unverified_write",
+      "verified_at": null,
+      "default_write_allowed": false,
+      "example_parameters": {
+        "accountId": "123"
+      },
+      "request_example": {
+        "kind": "graph",
+        "origin": "https://adsmanager-graph.facebook.com",
+        "path": "/v16.0/act_123",
+        "method": "POST",
+        "query": {},
+        "body": {
+          "spend_cap_action": "delete"
+        }
+      }
+    },
+    {
+      "name": "accounts.users.add",
+      "description": "添加广告账户人员",
+      "params": [
+        "accountId",
+        "userId",
+        "role"
+      ],
+      "write": true,
+      "paginated": false,
+      "source": "",
+      "verification": "implemented_unverified_write",
+      "verified_at": null,
+      "default_write_allowed": false,
+      "example_parameters": {
+        "accountId": "123",
+        "userId": "123",
+        "role": "1001"
+      },
+      "request_example": {
+        "kind": "graph",
+        "origin": "https://adsmanager-graph.facebook.com",
+        "path": "/v16.0/act_123/users",
+        "method": "POST",
+        "query": {},
+        "body": {
+          "uid": "123",
+          "role": "1001"
+        }
+      }
+    },
+    {
+      "name": "accounts.users.remove",
+      "description": "移除广告账户人员",
+      "params": [
+        "accountId",
+        "userId"
+      ],
+      "write": true,
+      "paginated": false,
+      "source": "",
+      "verification": "implemented_unverified_write",
+      "verified_at": null,
+      "default_write_allowed": false,
+      "example_parameters": {
+        "accountId": "123",
+        "userId": "123"
+      },
+      "request_example": {
+        "kind": "graph",
+        "origin": "https://adsmanager-graph.facebook.com",
+        "path": "/v16.0/act_123/users/123",
+        "method": "GET",
+        "query": {
+          "method": "DELETE"
+        }
+      }
+    },
+    {
+      "name": "accounts.partners.add",
+      "description": "分享广告账户给伙伴",
+      "params": [
+        "accountId",
+        "businessId",
+        "tasks"
+      ],
+      "write": true,
+      "paginated": false,
+      "source": "",
+      "verification": "implemented_unverified_write",
+      "verified_at": null,
+      "default_write_allowed": false,
+      "example_parameters": {
+        "accountId": "123",
+        "businessId": "123",
+        "tasks": [
+          "ANALYZE"
+        ]
+      },
+      "request_example": {
+        "kind": "graph",
+        "origin": "https://adsmanager-graph.facebook.com",
+        "path": "/v16.0/act_123/agencies",
+        "method": "POST",
+        "query": {},
+        "body": {
+          "business": "123",
+          "adaccount_id": "123",
+          "permitted_tasks": "ANALYZE"
+        }
+      }
+    },
+    {
+      "name": "accounts.currency.set",
+      "description": "修改账户币种",
+      "params": [
+        "accountId",
+        "currency"
+      ],
+      "write": true,
+      "paginated": false,
+      "source": "",
+      "verification": "implemented_unverified_write",
+      "verified_at": null,
+      "default_write_allowed": false,
+      "example_parameters": {
+        "accountId": "123",
+        "currency": "USD"
+      },
+      "request_example": {
+        "kind": "graph",
+        "origin": "https://adsmanager-graph.facebook.com",
+        "path": "/v16.0/act_123",
+        "method": "GET",
+        "query": {
+          "method": "POST",
+          "currency": "USD"
+        }
+      }
+    },
+    {
+      "name": "accounts.timezone.set",
+      "description": "修改账户时区",
+      "params": [
+        "accountId",
+        "timezoneId"
+      ],
+      "write": true,
+      "paginated": false,
+      "source": "",
+      "verification": "implemented_unverified_write",
+      "verified_at": null,
+      "default_write_allowed": false,
+      "example_parameters": {
+        "accountId": "123",
+        "timezoneId": 7
+      },
+      "request_example": {
+        "kind": "graph",
+        "origin": "https://adsmanager-graph.facebook.com",
+        "path": "/v16.0/act_123",
+        "method": "GET",
+        "query": {
+          "method": "POST",
+          "timezone_id": 7
+        }
+      }
+    },
+    {
+      "name": "businesses.list",
+      "description": "BM 列表",
+      "params": [
+        "limit?",
+        "after?"
+      ],
+      "write": false,
+      "paginated": true,
+      "source": "",
+      "verification": "read_verified_2026-11-10",
+      "verified_at": "2026-11-10T07:29:10.308Z",
+      "default_write_allowed": true,
+      "example_parameters": {},
+      "request_example": {
+        "kind": "graph",
+        "origin": "https://adsmanager-graph.facebook.com",
+        "path": "/v16.0/me/businesses",
+        "method": "GET",
+        "query": {
+          "fields": "id,name,verification_status,created_time",
+          "limit": 100
+        }
+      }
+    },
+    {
+      "name": "businesses.get",
+      "description": "BM 基本资料",
+      "params": [
+        "businessId"
+      ],
+      "write": false,
+      "paginated": false,
+      "source": "",
+      "verification": "read_verified_2026-11-10",
+      "verified_at": "2026-11-10T07:29:10.308Z",
+      "default_write_allowed": true,
+      "example_parameters": {
+        "businessId": "123"
+      },
+      "request_example": {
+        "kind": "graph",
+        "origin": "https://adsmanager-graph.facebook.com",
+        "path": "/v16.0/123",
+        "method": "GET",
+        "query": {
+          "fields": "id,name,verification_status,created_time,primary_page"
+        }
+      }
+    },
+    {
+      "name": "businesses.members.list",
+      "description": "BM 人员",
+      "params": [
+        "businessId",
+        "limit?",
+        "after?"
+      ],
+      "write": false,
+      "paginated": true,
+      "source": "",
+      "verification": "implemented_pending_live",
+      "verified_at": null,
+      "default_write_allowed": true,
+      "example_parameters": {
+        "businessId": "123"
+      },
+      "request_example": {
+        "kind": "graph",
+        "origin": "https://adsmanager-graph.facebook.com",
+        "path": "/v16.0/123/business_users",
+        "method": "GET",
+        "query": {
+          "fields": "id,name,email,role,pending_email",
+          "limit": 100
+        }
+      }
+    },
+    {
+      "name": "businesses.systemUsers.list",
+      "description": "BM 系统用户",
+      "params": [
+        "businessId",
+        "limit?",
+        "after?"
+      ],
+      "write": false,
+      "paginated": true,
+      "source": "",
+      "verification": "implemented_pending_live",
+      "verified_at": null,
+      "default_write_allowed": true,
+      "example_parameters": {
+        "businessId": "123"
+      },
+      "request_example": {
+        "kind": "graph",
+        "origin": "https://graph.facebook.com",
+        "path": "/v25.0/123/system_users",
+        "method": "GET",
+        "query": {
+          "fields": "id,name,role",
+          "limit": 100
+        }
+      }
+    },
+    {
+      "name": "businesses.accounts.owned",
+      "description": "BM 自有广告账户",
+      "params": [
+        "businessId",
+        "limit?",
+        "after?"
+      ],
+      "write": false,
+      "paginated": true,
+      "source": "",
+      "verification": "implemented_pending_live",
+      "verified_at": null,
+      "default_write_allowed": true,
+      "example_parameters": {
+        "businessId": "123"
+      },
+      "request_example": {
+        "kind": "graph",
+        "origin": "https://adsmanager-graph.facebook.com",
+        "path": "/v16.0/123/owned_ad_accounts",
+        "method": "GET",
+        "query": {
+          "fields": "id,account_id,name,account_status,currency",
+          "limit": 100
+        }
+      }
+    },
+    {
+      "name": "businesses.accounts.client",
+      "description": "BM 客户广告账户",
+      "params": [
+        "businessId",
+        "limit?",
+        "after?"
+      ],
+      "write": false,
+      "paginated": true,
+      "source": "",
+      "verification": "implemented_pending_live",
+      "verified_at": null,
+      "default_write_allowed": true,
+      "example_parameters": {
+        "businessId": "123"
+      },
+      "request_example": {
+        "kind": "graph",
+        "origin": "https://adsmanager-graph.facebook.com",
+        "path": "/v16.0/123/client_ad_accounts",
+        "method": "GET",
+        "query": {
+          "fields": "id,account_id,name,account_status,currency",
+          "limit": 100
+        }
+      }
+    },
+    {
+      "name": "businesses.pages.owned",
+      "description": "BM 自有主页",
+      "params": [
+        "businessId",
+        "limit?",
+        "after?"
+      ],
+      "write": false,
+      "paginated": true,
+      "source": "",
+      "verification": "implemented_pending_live",
+      "verified_at": null,
+      "default_write_allowed": true,
+      "example_parameters": {
+        "businessId": "123"
+      },
+      "request_example": {
+        "kind": "graph",
+        "origin": "https://graph.facebook.com",
+        "path": "/v25.0/123/owned_pages",
+        "method": "GET",
+        "query": {
+          "fields": "id,name",
+          "limit": 100
+        }
+      }
+    },
+    {
+      "name": "businesses.partners",
+      "description": "BM 伙伴关系首屏",
+      "params": [
+        "businessId"
+      ],
+      "write": false,
+      "paginated": false,
+      "source": "",
+      "verification": "implemented_pending_live",
+      "verified_at": null,
+      "default_write_allowed": true,
+      "example_parameters": {
+        "businessId": "123"
+      },
+      "request_example": {
+        "kind": "graph",
+        "origin": "https://adsmanager-graph.facebook.com",
+        "path": "/v16.0/123",
+        "method": "GET",
+        "query": {
+          "fields": "id,partner_relationships.limit(100){id,name}"
+        }
+      }
+    },
+    {
+      "name": "businesses.accounts.attach",
+      "description": "将广告账户关联至 BM",
+      "params": [
+        "businessId",
+        "accountId",
+        "tasks"
+      ],
+      "write": true,
+      "paginated": false,
+      "source": "",
+      "verification": "implemented_unverified_write",
+      "verified_at": null,
+      "default_write_allowed": false,
+      "example_parameters": {
+        "businessId": "123",
+        "accountId": "123",
+        "tasks": [
+          "ANALYZE"
+        ]
+      },
+      "request_example": {
+        "kind": "graph",
+        "origin": "https://adsmanager-graph.facebook.com",
+        "path": "/v16.0/123/client_ad_accounts",
+        "method": "POST",
+        "query": {},
+        "body": {
+          "adaccount_id": "act_123",
+          "access_type": "AGENCY",
+          "method": "post",
+          "permitted_tasks": "ANALYZE"
+        }
+      }
+    },
+    {
+      "name": "businesses.accounts.remove",
+      "description": "移除 BM 客户广告账户关系",
+      "params": [
+        "businessId",
+        "accountId"
+      ],
+      "write": true,
+      "paginated": false,
+      "source": "",
+      "verification": "implemented_unverified_write",
+      "verified_at": null,
+      "default_write_allowed": false,
+      "example_parameters": {
+        "businessId": "123",
+        "accountId": "123"
+      },
+      "request_example": {
+        "kind": "graph",
+        "origin": "https://adsmanager-graph.facebook.com",
+        "path": "/v16.0/123/client_ad_accounts",
+        "method": "POST",
+        "query": {},
+        "body": {
+          "method": "delete",
+          "adaccount_id": "act_123"
+        }
+      }
+    },
+    {
+      "name": "businesses.members.remove",
+      "description": "移除 BM 人员",
+      "params": [
+        "businessUserId"
+      ],
+      "write": true,
+      "paginated": false,
+      "source": "",
+      "verification": "implemented_unverified_write",
+      "verified_at": null,
+      "default_write_allowed": false,
+      "example_parameters": {
+        "businessUserId": "123"
+      },
+      "request_example": {
+        "kind": "graph",
+        "origin": "https://adsmanager-graph.facebook.com",
+        "path": "/v16.0/123",
+        "method": "GET",
+        "query": {
+          "method": "DELETE"
+        }
+      }
+    },
+    {
+      "name": "pages.list",
+      "description": "当前身份可访问主页",
+      "params": [
+        "limit?",
+        "after?"
+      ],
+      "write": false,
+      "paginated": true,
+      "source": "",
+      "verification": "read_verified_2026-11-10",
+      "verified_at": "2026-11-10T07:29:10.308Z",
+      "default_write_allowed": true,
+      "example_parameters": {},
+      "request_example": {
+        "kind": "graph",
+        "origin": "https://graph.facebook.com",
+        "path": "/v18.0/me/accounts",
+        "method": "GET",
+        "query": {
+          "fields": "id,name,category,tasks",
+          "limit": 100
+        }
+      }
+    },
+    {
+      "name": "pages.get",
+      "description": "主页基本资料",
+      "params": [
+        "pageId"
+      ],
+      "write": false,
+      "paginated": false,
+      "source": "",
+      "verification": "implemented_pending_live",
+      "verified_at": null,
+      "default_write_allowed": true,
+      "example_parameters": {
+        "pageId": "123"
+      },
+      "request_example": {
+        "kind": "graph",
+        "origin": "https://graph.facebook.com",
+        "path": "/v18.0/123",
+        "method": "GET",
+        "query": {
+          "fields": "id,name,category,link"
+        }
+      }
+    },
+    {
+      "name": "pages.posts.list",
+      "description": "主页帖子",
+      "params": [
+        "pageId",
+        "limit?",
+        "after?"
+      ],
+      "write": false,
+      "paginated": true,
+      "source": "",
+      "verification": "implemented_pending_live",
+      "verified_at": null,
+      "default_write_allowed": true,
+      "example_parameters": {
+        "pageId": "123"
+      },
+      "request_example": {
+        "kind": "graph",
+        "origin": "https://graph.facebook.com",
+        "path": "/v18.0/123/posts",
+        "method": "GET",
+        "query": {
+          "fields": "id,message,created_time,permalink_url",
+          "limit": 100
+        }
+      }
+    },
+    {
+      "name": "pixels.list",
+      "description": "BM 自有像素",
+      "params": [
+        "businessId",
+        "limit?",
+        "after?"
+      ],
+      "write": false,
+      "paginated": true,
+      "source": "",
+      "verification": "read_verified_2026-11-10",
+      "verified_at": "2026-11-10T07:29:10.308Z",
+      "default_write_allowed": true,
+      "example_parameters": {
+        "businessId": "123"
+      },
+      "request_example": {
+        "kind": "graph",
+        "origin": "https://adsmanager-graph.facebook.com",
+        "path": "/v16.0/123/adspixels",
+        "method": "GET",
+        "query": {
+          "fields": "id,name,owner_business",
+          "limit": 100
+        }
+      }
+    },
+    {
+      "name": "pixels.get",
+      "description": "像素详情",
+      "params": [
+        "pixelId"
+      ],
+      "write": false,
+      "paginated": false,
+      "source": "",
+      "verification": "implemented_pending_live",
+      "verified_at": null,
+      "default_write_allowed": true,
+      "example_parameters": {
+        "pixelId": "123"
+      },
+      "request_example": {
+        "kind": "graph",
+        "origin": "https://adsmanager-graph.facebook.com",
+        "path": "/v16.0/123",
+        "method": "GET",
+        "query": {
+          "fields": "id,name,owner_business"
+        }
+      }
+    },
+    {
+      "name": "pixels.users",
+      "description": "像素分配人员",
+      "params": [
+        "pixelId"
+      ],
+      "write": false,
+      "paginated": false,
+      "source": "",
+      "verification": "implemented_pending_live",
+      "verified_at": null,
+      "default_write_allowed": true,
+      "example_parameters": {
+        "pixelId": "123"
+      },
+      "request_example": {
+        "kind": "graph",
+        "origin": "https://adsmanager-graph.facebook.com",
+        "path": "/v16.0/123",
+        "method": "GET",
+        "query": {
+          "fields": "assigned_users{id,name,tasks}"
+        }
+      }
+    },
+    {
+      "name": "pixels.partners",
+      "description": "像素分配伙伴",
+      "params": [
+        "pixelId"
+      ],
+      "write": false,
+      "paginated": false,
+      "source": "",
+      "verification": "implemented_pending_live",
+      "verified_at": null,
+      "default_write_allowed": true,
+      "example_parameters": {
+        "pixelId": "123"
+      },
+      "request_example": {
+        "kind": "graph",
+        "origin": "https://adsmanager-graph.facebook.com",
+        "path": "/v16.0/123",
+        "method": "GET",
+        "query": {
+          "fields": "assigned_partners{id,name}"
+        }
+      }
+    },
+    {
+      "name": "pixels.accounts",
+      "description": "像素可用广告账户",
+      "params": [
+        "pixelId",
+        "businessId"
+      ],
+      "write": false,
+      "paginated": false,
+      "source": "",
+      "verification": "implemented_pending_live",
+      "verified_at": null,
+      "default_write_allowed": true,
+      "example_parameters": {
+        "pixelId": "123",
+        "businessId": "123"
+      },
+      "request_example": {
+        "kind": "graph",
+        "origin": "https://adsmanager-graph.facebook.com",
+        "path": "/v16.0/123",
+        "method": "GET",
+        "query": {
+          "fields": "permissible_ad_accounts.limit(100).business(123)"
+        }
+      }
+    },
+    {
+      "name": "pixels.accounts.share",
+      "description": "旧像素共享账户接口",
+      "params": [
+        "pixelId",
+        "businessId",
+        "accountId"
+      ],
+      "write": true,
+      "paginated": false,
+      "source": "",
+      "verification": "implemented_unverified_write",
+      "verified_at": null,
+      "default_write_allowed": false,
+      "example_parameters": {
+        "pixelId": "123",
+        "businessId": "123",
+        "accountId": "123"
+      },
+      "request_example": {
+        "kind": "graph",
+        "origin": "https://adsmanager-graph.facebook.com",
+        "path": "/v16.0/123/shared_accounts",
+        "method": "GET",
+        "query": {
+          "method": "POST",
+          "business": "123",
+          "account_id": "123"
+        }
+      }
+    },
+    {
+      "name": "ads.campaigns.list",
+      "description": "campaigns 列表",
+      "params": [
+        "accountId",
+        "limit?",
+        "after?"
+      ],
+      "write": false,
+      "paginated": true,
+      "source": "",
+      "verification": "read_verified_2026-11-10",
+      "verified_at": "2026-11-10T07:29:10.308Z",
+      "default_write_allowed": true,
+      "example_parameters": {
+        "accountId": "123"
+      },
+      "request_example": {
+        "kind": "graph",
+        "origin": "https://adsmanager-graph.facebook.com",
+        "path": "/v16.0/act_123/campaigns",
+        "method": "GET",
+        "query": {
+          "fields": "id,name,status,effective_status",
+          "limit": 100
+        }
+      }
+    },
+    {
+      "name": "ads.adsets.list",
+      "description": "adsets 列表",
+      "params": [
+        "accountId",
+        "limit?",
+        "after?"
+      ],
+      "write": false,
+      "paginated": true,
+      "source": "",
+      "verification": "implemented_pending_live",
+      "verified_at": null,
+      "default_write_allowed": true,
+      "example_parameters": {
+        "accountId": "123"
+      },
+      "request_example": {
+        "kind": "graph",
+        "origin": "https://adsmanager-graph.facebook.com",
+        "path": "/v16.0/act_123/adsets",
+        "method": "GET",
+        "query": {
+          "fields": "id,name,status,effective_status",
+          "limit": 100
+        }
+      }
+    },
+    {
+      "name": "ads.ads.list",
+      "description": "ads 列表",
+      "params": [
+        "accountId",
+        "limit?",
+        "after?"
+      ],
+      "write": false,
+      "paginated": true,
+      "source": "",
+      "verification": "implemented_pending_live",
+      "verified_at": null,
+      "default_write_allowed": true,
+      "example_parameters": {
+        "accountId": "123"
+      },
+      "request_example": {
+        "kind": "graph",
+        "origin": "https://adsmanager-graph.facebook.com",
+        "path": "/v16.0/act_123/ads",
+        "method": "GET",
+        "query": {
+          "fields": "id,name,status,effective_status",
+          "limit": 100
+        }
+      }
+    },
+    {
+      "name": "ads.object.get",
+      "description": "广告对象基本状态",
+      "params": [
+        "objectId"
+      ],
+      "write": false,
+      "paginated": false,
+      "source": "",
+      "verification": "implemented_pending_live",
+      "verified_at": null,
+      "default_write_allowed": true,
+      "example_parameters": {
+        "objectId": "123"
+      },
+      "request_example": {
+        "kind": "graph",
+        "origin": "https://adsmanager-graph.facebook.com",
+        "path": "/v23.0/123",
+        "method": "GET",
+        "query": {
+          "fields": "id,name,status,effective_status"
+        }
+      }
+    },
+    {
+      "name": "ads.insights.query",
+      "description": "按明确日期和层级查询指标",
+      "params": [
+        "accountId",
+        "since",
+        "until",
+        "level?",
+        "limit?",
+        "after?"
+      ],
+      "write": false,
+      "paginated": true,
+      "source": "",
+      "verification": "implemented_pending_live",
+      "verified_at": null,
+      "default_write_allowed": true,
+      "example_parameters": {
+        "accountId": "123",
+        "since": "2026-10-01",
+        "until": "2026-10-31"
+      },
+      "request_example": {
+        "kind": "graph",
+        "origin": "https://adsmanager-graph.facebook.com",
+        "path": "/v18.0/act_123/insights",
+        "method": "GET",
+        "query": {
+          "time_range": {
+            "since": "2026-10-01",
+            "until": "2026-10-31"
+          },
+          "level": "account",
+          "fields": "account_id,account_currency,campaign_id,adset_id,ad_id,date_start,date_stop,spend,impressions,clicks,reach,actions,cost_per_action_type",
+          "limit": 100
+        }
+      }
+    },
+    {
+      "name": "ads.accountResults",
+      "description": "账户 am_tabular 结果指标",
+      "params": [
+        "accountId",
+        "since",
+        "until"
+      ],
+      "write": false,
+      "paginated": false,
+      "source": "",
+      "verification": "implemented_pending_live",
+      "verified_at": null,
+      "default_write_allowed": true,
+      "example_parameters": {
+        "accountId": "123",
+        "since": "2026-10-01",
+        "until": "2026-10-31"
+      },
+      "request_example": {
+        "kind": "graph",
+        "origin": "https://adsmanager-graph.facebook.com",
+        "path": "/v16.0/act_123/am_tabular",
+        "method": "GET",
+        "query": {
+          "time_range": {
+            "since": "2026-10-01",
+            "until": "2026-10-31"
+          },
+          "column_fields": "results,cost_per_result,spend",
+          "level": "account",
+          "limit": 1000
+        }
+      }
+    },
+    {
+      "name": "ads.status.set",
+      "description": "修改广告对象启停状态",
+      "params": [
+        "objectId",
+        "status"
+      ],
+      "write": true,
+      "paginated": false,
+      "source": "",
+      "verification": "implemented_unverified_write",
+      "verified_at": null,
+      "default_write_allowed": false,
+      "example_parameters": {
+        "objectId": "123",
+        "status": "PAUSED"
+      },
+      "request_example": {
+        "kind": "graph",
+        "origin": "https://adsmanager-graph.facebook.com",
+        "path": "/v23.0/123",
+        "method": "POST",
+        "query": {},
+        "body": {
+          "status": "PAUSED"
+        }
+      }
+    },
+    {
+      "name": "targeting.search",
+      "description": "兴趣关键词搜索",
+      "params": [
+        "accountId",
+        "query",
+        "locale?",
+        "countries?"
+      ],
+      "write": false,
+      "paginated": false,
+      "source": "",
+      "verification": "implemented_pending_live",
+      "verified_at": null,
+      "default_write_allowed": true,
+      "example_parameters": {
+        "accountId": "123",
+        "query": "Example"
+      },
+      "request_example": {
+        "kind": "graph",
+        "origin": "https://adsmanager-graph.facebook.com",
+        "path": "/v16.0/act_123/targetingsearch",
+        "method": "GET",
+        "query": {
+          "q": "Example",
+          "locale": "en_US",
+          "countries": [
+            "US"
+          ],
+          "limit": 500,
+          "fields": "id,name,type,path,audience_size_lower_bound,audience_size_upper_bound,description",
+          "objective": "LINK_CLICKS"
+        }
+      }
+    },
+    {
+      "name": "targeting.browse",
+      "description": "兴趣与人口统计分类",
+      "params": [
+        "accountId",
+        "locale?"
+      ],
+      "write": false,
+      "paginated": false,
+      "source": "",
+      "verification": "implemented_pending_live",
+      "verified_at": null,
+      "default_write_allowed": true,
+      "example_parameters": {
+        "accountId": "123"
+      },
+      "request_example": {
+        "kind": "graph",
+        "origin": "https://adsmanager-graph.facebook.com",
+        "path": "/v16.0/act_123/targetingbrowse",
+        "method": "GET",
+        "query": {
+          "locale": "en_US",
+          "countries": [
+            "US"
+          ],
+          "include_nodes": true,
+          "fields": "id,name,type,path,key,parent,description,audience_size_lower_bound,audience_size_upper_bound"
+        }
+      }
+    },
+    {
+      "name": "comments.list",
+      "description": "帖子评论",
+      "params": [
+        "postId",
+        "limit?",
+        "after?"
+      ],
+      "write": false,
+      "paginated": true,
+      "source": "",
+      "verification": "implemented_pending_live",
+      "verified_at": null,
+      "default_write_allowed": true,
+      "example_parameters": {
+        "postId": "123"
+      },
+      "request_example": {
+        "kind": "graph",
+        "origin": "https://graph.facebook.com",
+        "path": "/v18.0/123/comments",
+        "method": "GET",
+        "query": {
+          "fields": "id,message,created_time,from,attachment,is_hidden",
+          "limit": 100
+        }
+      }
+    },
+    {
+      "name": "comments.remove",
+      "description": "删除指定评论",
+      "params": [
+        "commentId"
+      ],
+      "write": true,
+      "paginated": false,
+      "source": "",
+      "verification": "implemented_unverified_write",
+      "verified_at": null,
+      "default_write_allowed": true,
+      "example_parameters": {
+        "commentId": "123"
+      },
+      "request_example": {
+        "kind": "graph",
+        "origin": "https://graph.facebook.com",
+        "path": "/v18.0/123",
+        "method": "GET",
+        "query": {
+          "method": "DELETE"
+        }
+      }
+    },
+    {
+      "name": "datasets.create",
+      "description": "创建 Dataset",
+      "params": [
+        "businessId",
+        "name"
+      ],
+      "write": true,
+      "paginated": false,
+      "source": "",
+      "verification": "implemented_unverified_write",
+      "verified_at": null,
+      "default_write_allowed": true,
+      "example_parameters": {
+        "businessId": "123",
+        "name": "Example"
+      },
+      "request_example": {
+        "kind": "web",
+        "origin": "https://business.facebook.com",
+        "pageOrigin": "https://business.facebook.com",
+        "path": "/events_manager/dataset/create/",
+        "method": "POST",
+        "query": {
+          "business_id": "123",
+          "is_crm": false,
+          "name": "Example"
+        },
+        "body": {
+          "__bid": "123"
+        }
+      }
+    },
+    {
+      "name": "catalogs.list",
+      "description": "BM 自有商品目录",
+      "params": [
+        "businessId",
+        "limit?",
+        "after?"
+      ],
+      "write": false,
+      "paginated": true,
+      "source": "",
+      "verification": "read_verified_2026-11-10",
+      "verified_at": "2026-11-10T07:29:10.308Z",
+      "default_write_allowed": true,
+      "example_parameters": {
+        "businessId": "123"
+      },
+      "request_example": {
+        "kind": "graph",
+        "origin": "https://graph.facebook.com",
+        "path": "/v18.0/123/owned_product_catalogs",
+        "method": "GET",
+        "query": {
+          "fields": "id,name,product_count,vertical",
+          "limit": 100
+        }
+      }
+    },
+    {
+      "name": "catalogs.get",
+      "description": "商品目录详情",
+      "params": [
+        "catalogId"
+      ],
+      "write": false,
+      "paginated": false,
+      "source": "",
+      "verification": "read_verified_2026-11-10",
+      "verified_at": "2026-11-10T07:29:10.308Z",
+      "default_write_allowed": true,
+      "example_parameters": {
+        "catalogId": "123"
+      },
+      "request_example": {
+        "kind": "graph",
+        "origin": "https://graph.facebook.com",
+        "path": "/v18.0/123",
+        "method": "GET",
+        "query": {
+          "fields": "id,name,product_count,vertical"
+        }
+      }
+    },
+    {
+      "name": "catalogs.products.list",
+      "description": "商品列表",
+      "params": [
+        "catalogId",
+        "limit?",
+        "after?"
+      ],
+      "write": false,
+      "paginated": true,
+      "source": "",
+      "verification": "read_verified_2026-11-10",
+      "verified_at": "2026-11-10T07:29:10.308Z",
+      "default_write_allowed": true,
+      "example_parameters": {
+        "catalogId": "123"
+      },
+      "request_example": {
+        "kind": "graph",
+        "origin": "https://graph.facebook.com",
+        "path": "/v18.0/123/products",
+        "method": "GET",
+        "query": {
+          "fields": "id,retailer_id,name,description,availability,condition,price,currency,brand,url,image_url",
+          "limit": 100
+        }
+      }
+    },
+    {
+      "name": "catalogs.products.get",
+      "description": "商品详情",
+      "params": [
+        "productId"
+      ],
+      "write": false,
+      "paginated": false,
+      "source": "",
+      "verification": "experimental_graph_requires_live_verification",
+      "verified_at": null,
+      "default_write_allowed": true,
+      "example_parameters": {
+        "productId": "123"
+      },
+      "request_example": {
+        "kind": "graph",
+        "origin": "https://graph.facebook.com",
+        "path": "/v18.0/123",
+        "method": "GET",
+        "query": {
+          "fields": "id,retailer_id,name,description,availability,condition,price,currency,brand,url,image_url"
+        }
+      }
+    },
+    {
+      "name": "catalogs.productSets.list",
+      "description": "商品集列表",
+      "params": [
+        "catalogId",
+        "limit?",
+        "after?"
+      ],
+      "write": false,
+      "paginated": true,
+      "source": "",
+      "verification": "read_verified_2026-11-10",
+      "verified_at": "2026-11-10T07:29:10.308Z",
+      "default_write_allowed": true,
+      "example_parameters": {
+        "catalogId": "123"
+      },
+      "request_example": {
+        "kind": "graph",
+        "origin": "https://graph.facebook.com",
+        "path": "/v18.0/123/product_sets",
+        "method": "GET",
+        "query": {
+          "fields": "id,name,filter,product_count",
+          "limit": 100
+        }
+      }
+    },
+    {
+      "name": "catalogs.productSets.get",
+      "description": "商品集详情",
+      "params": [
+        "productSetId"
+      ],
+      "write": false,
+      "paginated": false,
+      "source": "",
+      "verification": "experimental_graph_requires_live_verification",
+      "verified_at": null,
+      "default_write_allowed": true,
+      "example_parameters": {
+        "productSetId": "123"
+      },
+      "request_example": {
+        "kind": "graph",
+        "origin": "https://graph.facebook.com",
+        "path": "/v18.0/123",
+        "method": "GET",
+        "query": {
+          "fields": "id,name,filter,product_count"
+        }
+      }
+    },
+    {
+      "name": "accounts.billing",
+      "description": "账户支付记录首屏，支持明确时间和游标",
+      "params": [
+        "accountId",
+        "startTime",
+        "endTime",
+        "cursor?",
+        "count?"
+      ],
+      "write": false,
+      "paginated": false,
+      "source": "",
+      "verification": "implemented_pending_live",
+      "verified_at": null,
+      "default_write_allowed": true,
+      "example_parameters": {
+        "accountId": "123",
+        "startTime": 0,
+        "endTime": 86400
+      },
+      "request_example": {
+        "kind": "graphql",
+        "origin": "https://business.facebook.com",
+        "pageOrigin": "https://business.facebook.com",
+        "path": "/api/graphql/",
+        "method": "POST",
+        "friendlyName": "BillingHubTransactionsTableQuery",
+        "docId": "9703820159706447",
+        "variables": {
+          "paymentAccountID": "123",
+          "start_time": 0,
+          "end_time": 86400,
+          "count": 10,
+          "cursor": null,
+          "filters": [],
+          "skip_billing_reason": true
+        }
+      }
+    },
+    {
+      "name": "pages.categories.search",
+      "description": "搜索主页分类",
+      "params": [
+        "query"
+      ],
+      "write": false,
+      "paginated": false,
+      "source": "",
+      "verification": "implemented_pending_live",
+      "verified_at": null,
+      "default_write_allowed": true,
+      "example_parameters": {
+        "query": "Example"
+      },
+      "request_example": {
+        "kind": "graphql",
+        "origin": "https://www.facebook.com",
+        "pageOrigin": "https://www.facebook.com",
+        "path": "/api/graphql/",
+        "method": "POST",
+        "friendlyName": "usePagesCometAdminEditingCategoryDataSourceQuery",
+        "docId": "9868446276528106",
+        "variables": {
+          "params": {
+            "search_string": "Example"
+          }
+        }
+      }
+    },
+    {
+      "name": "pages.roles",
+      "description": "主页角色，需要明确主页身份",
+      "params": [
+        "pageId"
+      ],
+      "write": false,
+      "paginated": false,
+      "source": "",
+      "verification": "implemented_pending_live",
+      "verified_at": null,
+      "default_write_allowed": true,
+      "example_parameters": {
+        "pageId": "123"
+      },
+      "request_example": {
+        "kind": "graphql",
+        "origin": "https://www.facebook.com",
+        "pageOrigin": "https://www.facebook.com",
+        "path": "/api/graphql/",
+        "method": "POST",
+        "friendlyName": "CometProfilePlusAdminPermissionsRootQuery",
+        "docId": "7549643858456643",
+        "variables": {},
+        "actingProfileId": "123"
+      }
+    },
+    {
+      "name": "pages.create",
+      "description": "创建个人主页",
+      "params": [
+        "name",
+        "categoryId"
+      ],
+      "write": true,
+      "paginated": false,
+      "source": "",
+      "verification": "implemented_unverified_write",
+      "verified_at": null,
+      "default_write_allowed": true,
+      "example_parameters": {
+        "name": "Example",
+        "categoryId": "123"
+      },
+      "request_example": {
+        "kind": "graphql",
+        "origin": "https://www.facebook.com",
+        "pageOrigin": "https://www.facebook.com",
+        "path": "/api/graphql/",
+        "method": "POST",
+        "friendlyName": "AdditionalProfilePlusCreationMutation",
+        "docId": "23863457623296585",
+        "variables": {
+          "input": {
+            "bio": "",
+            "categories": [
+              "123"
+            ],
+            "creation_source": "comet",
+            "name": "Example",
+            "off_platform_creator_reachout_id": null,
+            "page_referrer": "launch_point",
+            "actor_id": "111",
+            "client_mutation_id": "<generated-per-plan>"
+          }
+        }
+      }
+    },
+    {
+      "name": "pages.createInBusiness",
+      "description": "创建 BM 主页",
+      "params": [
+        "businessId",
+        "name",
+        "categoryId"
+      ],
+      "write": true,
+      "paginated": false,
+      "source": "",
+      "verification": "implemented_unverified_write",
+      "verified_at": null,
+      "default_write_allowed": true,
+      "example_parameters": {
+        "businessId": "123",
+        "name": "Example",
+        "categoryId": "123"
+      },
+      "request_example": {
+        "kind": "graphql",
+        "origin": "https://www.facebook.com",
+        "pageOrigin": "https://www.facebook.com",
+        "path": "/api/graphql/",
+        "method": "POST",
+        "friendlyName": "BizKitSettingsCreateAdditionalProfilePlusMutation",
+        "docId": "24040062452298715",
+        "variables": {
+          "input": {
+            "actor_id": "111",
+            "client_mutation_id": "<generated-per-plan>",
+            "business_id": "123",
+            "categories": [
+              "123"
+            ],
+            "creation_source": "meta_business_suite",
+            "bio": null,
+            "name": "Example",
+            "casd_bl_disclosure_acceptance_data": null
+          }
+        }
+      }
+    },
+    {
+      "name": "businesses.create",
+      "description": "创建 BM",
+      "params": [
+        "name",
+        "firstName",
+        "lastName",
+        "email"
+      ],
+      "write": true,
+      "paginated": false,
+      "source": "",
+      "verification": "implemented_unverified_write",
+      "verified_at": null,
+      "default_write_allowed": true,
+      "example_parameters": {
+        "name": "Example",
+        "firstName": "Example",
+        "lastName": "User",
+        "email": "example@example.test"
+      },
+      "request_example": {
+        "kind": "graphql",
+        "origin": "https://business.facebook.com",
+        "pageOrigin": "https://business.facebook.com",
+        "path": "/api/graphql/",
+        "method": "POST",
+        "friendlyName": "useBusinessCreationMutationMutation",
+        "docId": "7780408488685584",
+        "variables": {
+          "input": {
+            "actor_id": "111",
+            "client_mutation_id": "<generated-per-plan>",
+            "business_name": "Example",
+            "user_first_name": "Example",
+            "user_last_name": "User",
+            "user_email": "example@example.test",
+            "creation_source": "BM_HOME_BUSINESS_CREATION_IN_SCOPE_SELECTOR",
+            "entry_point": "UNIFIED_GLOBAL_SCOPE_SELECTOR"
+          }
+        }
+      }
+    },
+    {
+      "name": "businesses.accounts.create",
+      "description": "在 BM 创建广告账户",
+      "params": [
+        "businessId",
+        "name",
+        "timezoneId",
+        "currency"
+      ],
+      "write": true,
+      "paginated": false,
+      "source": "",
+      "verification": "implemented_unverified_write",
+      "verified_at": null,
+      "default_write_allowed": false,
+      "example_parameters": {
+        "businessId": "123",
+        "name": "Example",
+        "timezoneId": 7,
+        "currency": "USD"
+      },
+      "request_example": {
+        "kind": "graphql",
+        "origin": "https://business.facebook.com",
+        "pageOrigin": "https://business.facebook.com",
+        "path": "/api/graphql/",
+        "method": "POST",
+        "friendlyName": "BizKitSettingsCreateAdAccountMutation",
+        "docId": "6547144472027848",
+        "variables": {
+          "businessID": "123",
+          "adAccountName": "Example",
+          "timezoneID": "7",
+          "currency": "USD",
+          "endAdvertiserID": "123"
+        }
+      }
+    },
+    {
+      "name": "businesses.people.page",
+      "description": "BM 人员及邀请，显式游标单页",
+      "params": [
+        "businessId",
+        "cursor?",
+        "count?",
+        "search?"
+      ],
+      "write": false,
+      "paginated": false,
+      "source": "",
+      "verification": "read_verified_2026-11-10",
+      "verified_at": "2026-11-10T07:29:10.308Z",
+      "default_write_allowed": true,
+      "example_parameters": {
+        "businessId": "123"
+      },
+      "request_example": {
+        "kind": "graphql",
+        "origin": "https://business.facebook.com",
+        "pageOrigin": "https://business.facebook.com",
+        "path": "/api/graphql/",
+        "method": "POST",
+        "friendlyName": "BizKitSettingsPeopleTableListPaginationQuery",
+        "docId": "26929347616691112",
+        "variables": {
+          "asset_types": null,
+          "businessAccessType": [],
+          "businessAccountTypes": [],
+          "businessUserStatusType": [],
+          "cursor": null,
+          "first": 20,
+          "isUnifiedSettings": true,
+          "orderBy": "MOST_RECENTLY_CREATED",
+          "permissions": [],
+          "searchTerm": "",
+          "shouldUseNewEmptyState": false,
+          "id": "123",
+          "__relay_internal__pv__BizKitSettingsPeopleEmptyStaterelayprovider": false
+        }
+      }
+    },
+    {
+      "name": "businesses.assets.page",
+      "description": "BM 资产列表；保留业务对象 ID 与真实资产 ID",
+      "params": [
+        "businessId",
+        "assetType",
+        "cursor?",
+        "count?",
+        "search?"
+      ],
+      "write": false,
+      "paginated": false,
+      "source": "",
+      "verification": "read_verified_2026-11-10",
+      "verified_at": "2026-11-10T07:29:10.308Z",
+      "default_write_allowed": true,
+      "example_parameters": {
+        "businessId": "123",
+        "assetType": "EVENTS_DATASET_NEW"
+      },
+      "request_example": {
+        "kind": "graphql",
+        "origin": "https://business.facebook.com",
+        "pageOrigin": "https://business.facebook.com",
+        "path": "/api/graphql/",
+        "method": "POST",
+        "friendlyName": "BizKitSettingsBusinessAssetsListPaginationQuery",
+        "docId": "24040566188906095",
+        "variables": {
+          "assetFilters": {
+            "ad_account_statuses": [
+              "ACTIVE",
+              "DISABLED",
+              "IN_GRACE_PERIOD",
+              "PENDING_CLOSURE",
+              "PENDING_RISK_REVIEW",
+              "PENDING_SETTLEMENT",
+              "UNSETTLED"
+            ]
+          },
+          "assetTypes": [
+            "EVENTS_DATASET_NEW"
+          ],
+          "businessID": "123",
+          "count": 20,
+          "cursor": "",
+          "globalFilters": null,
+          "orderBy": null,
+          "searchTerm": "",
+          "shouldCountAdmin": false,
+          "id": "123"
+        }
+      }
+    },
+    {
+      "name": "friends.incoming",
+      "description": "好友请求首屏；检查嵌套 page_info",
+      "params": [],
+      "write": false,
+      "paginated": false,
+      "source": "",
+      "verification": "read_verified_2026-11-10",
+      "verified_at": "2026-11-10T07:29:10.308Z",
+      "default_write_allowed": true,
+      "example_parameters": {},
+      "request_example": {
+        "kind": "graphql",
+        "origin": "https://www.facebook.com",
+        "pageOrigin": "https://www.facebook.com",
+        "path": "/api/graphql/",
+        "method": "POST",
+        "friendlyName": "FriendingCometFriendRequestsRootQuery",
+        "docId": "4851458921570237",
+        "variables": {
+          "scale": 1
+        }
+      }
+    },
+    {
+      "name": "friends.outgoing",
+      "description": "好友请求首屏；检查嵌套 page_info",
+      "params": [],
+      "write": false,
+      "paginated": false,
+      "source": "",
+      "verification": "read_verified_2026-11-10",
+      "verified_at": "2026-11-10T07:29:10.308Z",
+      "default_write_allowed": true,
+      "example_parameters": {},
+      "request_example": {
+        "kind": "graphql",
+        "origin": "https://www.facebook.com",
+        "pageOrigin": "https://www.facebook.com",
+        "path": "/api/graphql/",
+        "method": "POST",
+        "friendlyName": "FriendingCometOutgoingRequestsDialogQuery",
+        "docId": "7114490868621087",
+        "variables": {
+          "scale": 1
+        }
+      }
+    },
+    {
+      "name": "friends.incoming.page",
+      "description": "好友请求后续页",
+      "params": [
+        "cursor",
+        "count?"
+      ],
+      "write": false,
+      "paginated": false,
+      "source": "",
+      "verification": "implemented_pending_live",
+      "verified_at": null,
+      "default_write_allowed": true,
+      "example_parameters": {
+        "cursor": "PAGE_CURSOR"
+      },
+      "request_example": {
+        "kind": "graphql",
+        "origin": "https://www.facebook.com",
+        "pageOrigin": "https://www.facebook.com",
+        "path": "/api/graphql/",
+        "method": "POST",
+        "friendlyName": "FriendingCometFriendRequestsSectionPanelPaginationQuery",
+        "docId": "4843321999100134",
+        "variables": {
+          "count": 20,
+          "cursor": "PAGE_CURSOR",
+          "scale": 1
+        }
+      }
+    },
+    {
+      "name": "friends.outgoing.page",
+      "description": "好友请求后续页",
+      "params": [
+        "cursor",
+        "count?"
+      ],
+      "write": false,
+      "paginated": false,
+      "source": "",
+      "verification": "implemented_pending_live",
+      "verified_at": null,
+      "default_write_allowed": true,
+      "example_parameters": {
+        "cursor": "PAGE_CURSOR"
+      },
+      "request_example": {
+        "kind": "graphql",
+        "origin": "https://www.facebook.com",
+        "pageOrigin": "https://www.facebook.com",
+        "path": "/api/graphql/",
+        "method": "POST",
+        "friendlyName": "FriendingCometOutgoingRequestsDialogPaginationQuery",
+        "docId": "4420916318007844",
+        "variables": {
+          "count": 20,
+          "cursor": "PAGE_CURSOR",
+          "scale": 1
+        }
+      }
+    },
+    {
+      "name": "friends.send",
+      "description": "处理明确指定的一条好友请求",
+      "params": [
+        "personId"
+      ],
+      "write": true,
+      "paginated": false,
+      "source": "",
+      "verification": "implemented_unverified_write",
+      "verified_at": null,
+      "default_write_allowed": true,
+      "example_parameters": {
+        "personId": "123"
+      },
+      "request_example": {
+        "kind": "graphql",
+        "origin": "https://www.facebook.com",
+        "pageOrigin": "https://www.facebook.com",
+        "path": "/api/graphql/",
+        "method": "POST",
+        "friendlyName": "FriendingCometFriendRequestSendMutation",
+        "docId": "9088570061180773",
+        "variables": {
+          "input": {
+            "actor_id": "111",
+            "client_mutation_id": "<generated-per-plan>",
+            "friend_requestee_ids": [
+              "123"
+            ],
+            "friending_channel": "PROFILE_BUTTON"
+          },
+          "scale": 1
+        }
+      }
+    },
+    {
+      "name": "friends.cancel",
+      "description": "处理明确指定的一条好友请求",
+      "params": [
+        "personId"
+      ],
+      "write": true,
+      "paginated": false,
+      "source": "",
+      "verification": "implemented_unverified_write",
+      "verified_at": null,
+      "default_write_allowed": true,
+      "example_parameters": {
+        "personId": "123"
+      },
+      "request_example": {
+        "kind": "graphql",
+        "origin": "https://www.facebook.com",
+        "pageOrigin": "https://www.facebook.com",
+        "path": "/api/graphql/",
+        "method": "POST",
+        "friendlyName": "FriendingCometFriendRequestCancelMutation",
+        "docId": "5247084515315799",
+        "variables": {
+          "input": {
+            "actor_id": "111",
+            "client_mutation_id": "<generated-per-plan>",
+            "cancelled_friend_requestee_id": "123",
+            "friending_channel": "PROFILE_BUTTON"
+          },
+          "scale": 1
+        }
+      }
+    },
+    {
+      "name": "friends.confirm",
+      "description": "处理明确指定的一条好友请求",
+      "params": [
+        "personId"
+      ],
+      "write": true,
+      "paginated": false,
+      "source": "",
+      "verification": "implemented_unverified_write",
+      "verified_at": null,
+      "default_write_allowed": true,
+      "example_parameters": {
+        "personId": "123"
+      },
+      "request_example": {
+        "kind": "graphql",
+        "origin": "https://www.facebook.com",
+        "pageOrigin": "https://www.facebook.com",
+        "path": "/api/graphql/",
+        "method": "POST",
+        "friendlyName": "FriendingCometFriendRequestConfirmMutation",
+        "docId": "7296875020421877",
+        "variables": {
+          "input": {
+            "actor_id": "111",
+            "client_mutation_id": "<generated-per-plan>",
+            "friend_requester_id": "123",
+            "friending_channel": "FRIENDS_HOME_MAIN"
+          },
+          "scale": 1,
+          "refresh_num": 0
+        }
+      }
+    },
+    {
+      "name": "friends.delete",
+      "description": "处理明确指定的一条好友请求",
+      "params": [
+        "personId"
+      ],
+      "write": true,
+      "paginated": false,
+      "source": "",
+      "verification": "implemented_unverified_write",
+      "verified_at": null,
+      "default_write_allowed": true,
+      "example_parameters": {
+        "personId": "123"
+      },
+      "request_example": {
+        "kind": "graphql",
+        "origin": "https://www.facebook.com",
+        "pageOrigin": "https://www.facebook.com",
+        "path": "/api/graphql/",
+        "method": "POST",
+        "friendlyName": "FriendingCometFriendRequestDeleteMutation",
+        "docId": "25467262782918901",
+        "variables": {
+          "input": {
+            "actor_id": "111",
+            "client_mutation_id": "<generated-per-plan>",
+            "friend_requester_id": "123",
+            "friending_channel": "FRIENDS_HOME_MAIN"
+          },
+          "scale": 1,
+          "refresh_num": 0
+        }
+      }
+    },
+    {
+      "name": "datasets.connections.list",
+      "description": "Dataset 关联资产首屏",
+      "params": [
+        "businessId",
+        "assetId",
+        "assetType?"
+      ],
+      "write": false,
+      "paginated": false,
+      "source": "",
+      "verification": "implemented_pending_live",
+      "verified_at": null,
+      "default_write_allowed": true,
+      "example_parameters": {
+        "businessId": "123",
+        "assetId": "123"
+      },
+      "request_example": {
+        "kind": "graphql",
+        "origin": "https://business.facebook.com",
+        "pageOrigin": "https://business.facebook.com",
+        "path": "/api/graphql/",
+        "method": "POST",
+        "friendlyName": "BizKitSettingsAssetToAssetConnectionListContainerQuery",
+        "docId": "9683968218327721",
+        "variables": {
+          "businessID": "123",
+          "fromAssetID": "123",
+          "toAssetType": "AD_ACCOUNT",
+          "searchTerm": null
+        }
+      }
+    },
+    {
+      "name": "datasets.accounts.connect",
+      "description": "用已核实的资产 ID 连接 Dataset 与广告账户",
+      "params": [
+        "businessId",
+        "assetId",
+        "accountAssetIds"
+      ],
+      "write": true,
+      "paginated": false,
+      "source": "",
+      "verification": "implemented_unverified_write",
+      "verified_at": null,
+      "default_write_allowed": false,
+      "example_parameters": {
+        "businessId": "123",
+        "assetId": "123",
+        "accountAssetIds": [
+          "123"
+        ]
+      },
+      "request_example": {
+        "kind": "graphql",
+        "origin": "https://business.facebook.com",
+        "pageOrigin": "https://business.facebook.com",
+        "path": "/api/graphql/",
+        "method": "POST",
+        "friendlyName": "BizKitSettingsBulkAddAssetToAssetConnectionMutation",
+        "docId": "6766079193404375",
+        "variables": {
+          "businessID": "123",
+          "fromAssetID": "123",
+          "toAssetIDs": [
+            "123"
+          ],
+          "connectedAssetTypes": [
+            "AD_ACCOUNT",
+            "BUSINESS_RESOURCE_GROUP"
+          ]
+        }
+      }
+    },
+    {
+      "name": "datasets.accounts.disconnect",
+      "description": "移除 Dataset 账户连接",
+      "params": [
+        "businessId",
+        "assetId",
+        "accountAssetId"
+      ],
+      "write": true,
+      "paginated": false,
+      "source": "",
+      "verification": "implemented_unverified_write",
+      "verified_at": null,
+      "default_write_allowed": false,
+      "example_parameters": {
+        "businessId": "123",
+        "assetId": "123",
+        "accountAssetId": "123"
+      },
+      "request_example": {
+        "kind": "graphql",
+        "origin": "https://business.facebook.com",
+        "pageOrigin": "https://business.facebook.com",
+        "path": "/api/graphql/",
+        "method": "POST",
+        "friendlyName": "BizKitSettingsRemoveAssetToAssetConnectionMutation",
+        "docId": "9935288606491185",
+        "variables": {
+          "businessID": "123",
+          "fromAssetID": "123",
+          "toAssetID": "123",
+          "connectedAssetTypes": [
+            "AD_ACCOUNT",
+            "BUSINESS_RESOURCE_GROUP"
+          ]
+        }
+      }
+    },
+    {
+      "name": "assets.partner.validate",
+      "description": "检查伙伴是否可接收指定资产",
+      "params": [
+        "businessId",
+        "assetId",
+        "partnerBusinessId"
+      ],
+      "write": false,
+      "paginated": false,
+      "source": "",
+      "verification": "implemented_pending_live",
+      "verified_at": null,
+      "default_write_allowed": true,
+      "example_parameters": {
+        "businessId": "123",
+        "assetId": "123",
+        "partnerBusinessId": "123"
+      },
+      "request_example": {
+        "kind": "graphql",
+        "origin": "https://business.facebook.com",
+        "pageOrigin": "https://business.facebook.com",
+        "path": "/api/graphql/",
+        "method": "POST",
+        "friendlyName": "BizKitSettingsAddPartnerToAssetByBusinessIDModalValidationQuery",
+        "docId": "9794646500614064",
+        "variables": {
+          "businessID": "123",
+          "assetID": "123",
+          "partnerBusinessID": "123"
+        }
+      }
+    },
+    {
+      "name": "datasets.partners.add",
+      "description": "按明确 task IDs 分享 Dataset；不默认全权限",
+      "params": [
+        "businessId",
+        "assetId",
+        "partnerBusinessId",
+        "taskIds"
+      ],
+      "write": true,
+      "paginated": false,
+      "source": "",
+      "verification": "implemented_unverified_write",
+      "verified_at": null,
+      "default_write_allowed": false,
+      "example_parameters": {
+        "businessId": "123",
+        "assetId": "123",
+        "partnerBusinessId": "123",
+        "taskIds": [
+          "123"
+        ]
+      },
+      "request_example": {
+        "kind": "graphql",
+        "origin": "https://business.facebook.com",
+        "pageOrigin": "https://business.facebook.com",
+        "path": "/api/graphql/",
+        "method": "POST",
+        "friendlyName": "BizKitSettingsAddPartnerToAssetMutation",
+        "docId": "27839253259098711",
+        "variables": {
+          "businessID": "123",
+          "assetID": "123",
+          "toBusinessID": "123",
+          "taskIDs": [
+            "123"
+          ],
+          "surfaceParams": {
+            "entry_point": "BIZWEB_SETTINGS_ASSETS_VIEW_DETAILS_HEADER",
+            "flow_source": "BIZ_WEB",
+            "tab": "EVENTS_DATASET_AND_PIXEL"
+          },
+          "shouldFetchPartnerName": false,
+          "qplJoinID": null
+        }
+      }
+    },
+    {
+      "name": "datasets.users.assign",
+      "description": "按明确 task IDs 分配 Dataset 人员",
+      "params": [
+        "businessId",
+        "assetId",
+        "userIds",
+        "taskIds"
+      ],
+      "write": true,
+      "paginated": false,
+      "source": "",
+      "verification": "implemented_unverified_write",
+      "verified_at": null,
+      "default_write_allowed": false,
+      "example_parameters": {
+        "businessId": "123",
+        "assetId": "123",
+        "userIds": [
+          "123"
+        ],
+        "taskIds": [
+          "123"
+        ]
+      },
+      "request_example": {
+        "kind": "graphql",
+        "origin": "https://business.facebook.com",
+        "pageOrigin": "https://business.facebook.com",
+        "path": "/api/graphql/",
+        "method": "POST",
+        "friendlyName": "BusinessToolsAssignUserToAssetModalMutation",
+        "docId": "8519783498080407",
+        "variables": {
+          "businessID": "123",
+          "assetID": "123",
+          "userIDs": [
+            "123"
+          ],
+          "taskIDs": [
+            "123"
+          ]
+        }
+      }
+    },
+    {
+      "name": "datasets.users.remove",
+      "description": "移除 Dataset 人员",
+      "params": [
+        "businessId",
+        "assetId",
+        "userId"
+      ],
+      "write": true,
+      "paginated": false,
+      "source": "",
+      "verification": "implemented_unverified_write",
+      "verified_at": null,
+      "default_write_allowed": true,
+      "example_parameters": {
+        "businessId": "123",
+        "assetId": "123",
+        "userId": "123"
+      },
+      "request_example": {
+        "kind": "graphql",
+        "origin": "https://business.facebook.com",
+        "pageOrigin": "https://business.facebook.com",
+        "path": "/api/graphql/",
+        "method": "POST",
+        "friendlyName": "BusinessToolsRemoveUserAssetConnectionMutation",
+        "docId": "9533151003450644",
+        "variables": {
+          "businessID": "123",
+          "assetID": "123",
+          "userID": "123",
+          "assetTypes": [
+            "EVENTS_DATASET_NEW"
+          ],
+          "isDirectAdmin": false
+        }
+      }
+    },
+    {
+      "name": "assets.partners.remove",
+      "description": "移除指定资产伙伴关系",
+      "params": [
+        "businessId",
+        "assetId",
+        "partnerBusinessId"
+      ],
+      "write": true,
+      "paginated": false,
+      "source": "",
+      "verification": "implemented_unverified_write",
+      "verified_at": null,
+      "default_write_allowed": false,
+      "example_parameters": {
+        "businessId": "123",
+        "assetId": "123",
+        "partnerBusinessId": "123"
+      },
+      "request_example": {
+        "kind": "graphql",
+        "origin": "https://business.facebook.com",
+        "pageOrigin": "https://business.facebook.com",
+        "path": "/api/graphql/",
+        "method": "POST",
+        "friendlyName": "BizKitSettingsRemovePartnerFromAssetMutation",
+        "docId": "29323358057307636",
+        "variables": {
+          "businessID": "123",
+          "assetID": "123",
+          "partnerBusinessID": "123"
+        }
+      }
+    },
+    {
+      "name": "comments.hide",
+      "description": "隐藏指定评论",
+      "params": [
+        "commentId",
+        "pageId?"
+      ],
+      "write": true,
+      "paginated": false,
+      "source": "",
+      "verification": "implemented_unverified_write",
+      "verified_at": null,
+      "default_write_allowed": true,
+      "example_parameters": {
+        "commentId": "123"
+      },
+      "request_example": {
+        "kind": "graphql",
+        "origin": "https://www.facebook.com",
+        "pageOrigin": "https://www.facebook.com",
+        "path": "/api/graphql/",
+        "method": "POST",
+        "friendlyName": "CometUFIHideCommentMutation",
+        "docId": "9037235743033289",
+        "variables": {
+          "input": {
+            "actor_id": "111",
+            "client_mutation_id": "<generated-per-plan>",
+            "comment_id": "Y29tbWVudDoxMjM=",
+            "feedback_source": 41,
+            "hide_location": "MENU",
+            "site": "comet"
+          },
+          "feedLocation": "TAHOE",
+          "useDefaultActor": false,
+          "scale": 2
+        }
+      }
+    }
+  ]
+}

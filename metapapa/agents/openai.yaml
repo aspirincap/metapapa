@@ -1,0 +1,6 @@
+interface:
+  display_name: "metapapa"
+  short_description: "通过 Chrome 或 AdsPower 查询 Meta 资产并管理 Catalog，提供个号登录引导"
+  default_prompt: "使用 $metapapa 在我选择的 Chrome 或 AdsPower 环境中处理 Meta 与 Catalog 任务，核对个号并遵守广告账户写入限制。"
+policy:
+  allow_implicit_invocation: true

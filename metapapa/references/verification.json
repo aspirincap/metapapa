@@ -1,0 +1,288 @@
+{
+  "date": "2026-11-10T07:29:10.308Z",
+  "mode": "existing_chrome_web_session",
+  "mutations_submitted": 0,
+  "checks": [
+    {
+      "operation": "identity.me",
+      "ok": true
+    },
+    {
+      "operation": "accounts.list",
+      "ok": true
+    },
+    {
+      "operation": "businesses.list",
+      "ok": true
+    },
+    {
+      "operation": "pages.list",
+      "ok": true
+    },
+    {
+      "operation": "accounts.get",
+      "ok": true
+    },
+    {
+      "operation": "accounts.spendCap",
+      "ok": true
+    },
+    {
+      "operation": "businesses.get",
+      "ok": true
+    },
+    {
+      "operation": "pixels.list",
+      "ok": true
+    },
+    {
+      "operation": "ads.campaigns.list",
+      "ok": true
+    },
+    {
+      "operation": "catalogs.list",
+      "ok": true
+    },
+    {
+      "operation": "catalogs.get",
+      "ok": true
+    },
+    {
+      "operation": "catalogs.products.list",
+      "ok": true
+    },
+    {
+      "operation": "catalogs.productSets.list",
+      "ok": true
+    },
+    {
+      "operation": "catalog.listFeeds",
+      "ok": true
+    },
+    {
+      "operation": "catalog.feedDetails",
+      "ok": true
+    },
+    {
+      "operation": "businesses.people.page",
+      "ok": true
+    },
+    {
+      "operation": "businesses.assets.page",
+      "ok": true
+    },
+    {
+      "operation": "catalogs.products.list.pagination",
+      "ok": true
+    },
+    {
+      "operation": "friends.incoming",
+      "ok": true
+    },
+    {
+      "operation": "friends.outgoing",
+      "ok": true
+    }
+  ],
+  "scope": "Initial 1.0.0 read-only acceptance; later task evidence is recorded separately below.",
+  "catalog_product_urls": {
+    "date": "2026-11-10",
+    "version": "1.1.1",
+    "protocol_source": "official Commerce Manager loaded modules",
+    "read_query_live_verified": true,
+    "preflight_live_verified": true,
+    "requested_products": 4,
+    "skipped_already_matching": 4,
+    "direct_mutations_submitted": 2,
+    "direct_write_live_verified": true,
+    "prior_authorized_ui_update": {
+      "products": 4,
+      "readback_verified": true
+    },
+    "offline_tests": 9,
+    "live_write_scope": "single product round trip, two mutations; multi-product mutation not yet live verified"
+  },
+  "catalog_product_images": {
+    "date": "2026-11-10",
+    "successful_mutations": 2,
+    "round_trip_verified": true,
+    "route": "extended_fields_data.image_link; omit uploaded_image_id",
+    "scope": "single main image, no additional images or videos",
+    "catalog_image_id_reuse": "not supported by tested requests; timeout then explicit FATAL with zero updated",
+    "final_state": "original image URL restored; other fetched product fields unchanged",
+    "client": {
+      "version": "1.2.0",
+      "factory": "createCatalogProductImageClient",
+      "methods": [
+        "plan",
+        "execute",
+        "reconcile",
+        "planRestore"
+      ],
+      "new_offline_tests": 8,
+      "new_production_mutations": 0,
+      "release_scope": "1.2.0 introduced the wrapper without additional production writes; 1.3.0 live test is recorded below",
+      "scope": "HTTP(S) image source URL; one main image; no other media",
+      "live_round_trip_verified": true,
+      "live_successful_mutations": 2,
+      "live_test": "New public Pexels image replacement and planRestore, 2026-11-10"
+    }
+  },
+  "catalog_product_names": {
+    "date": "2026-11-10",
+    "version": "1.3.0",
+    "factory": "createCatalogProductNameClient",
+    "write_field": "title",
+    "read_fields": [
+      "Graph.name",
+      "attributes.Name.stringValue"
+    ],
+    "successful_mutations": 2,
+    "single_product_round_trip_verified": true,
+    "other_fetched_fields_changed": [],
+    "new_offline_tests": 5
+  },
+  "public_image_url_name_test": {
+    "date": "2026-11-10",
+    "successful_mutations": 6,
+    "failed_mutations": 0,
+    "all_readbacks_verified": true,
+    "final_fetched_fields_match_baseline": true,
+    "image_source": "https://www.pexels.com/photo/close-up-shot-of-a-blue-backpack-11463459/"
+  },
+  "facebook_profile_id": {
+    "date": "2026-11-10",
+    "version": "1.4.0",
+    "factory": "createFacebookIdClient",
+    "method": "same-origin homepage GET; initialRouteInfo.route.rootView.props.userID",
+    "vanity_urls_tested": 2,
+    "vanity_urls_resolved": 2,
+    "elapsed_ms": [
+      1585,
+      2006
+    ],
+    "numeric_url_attempts": 1,
+    "numeric_url_result": "needs_ui: PROFILE_GET_UNAVAILABLE",
+    "raw_html_or_credentials_exported": false,
+    "new_offline_tests": 8
+  },
+  "facebook_profile_id_anonymous": {
+    "date": "2026-11-10",
+    "version": "1.5.0",
+    "script": "facebook_id_public.py",
+    "method": "anonymous curl GET; og:url plus al:android:url / al:ios:url profile deep links",
+    "vanity_urls_tested": 1,
+    "vanity_urls_resolved": 1,
+    "http_status": 200,
+    "elapsed_ms": [
+      2117
+    ],
+    "matches_prior_chrome_result": true,
+    "chrome_used": false,
+    "login_information_used": false,
+    "numeric_urls_live_verified": false,
+    "raw_html_persisted_by_script": false,
+    "new_offline_tests": 13
+  },
+  "onboarding": {
+    "version": "1.6.0",
+    "reference": "onboarding.md",
+    "implementation": "Chrome + AdsPower choice; personal identity binding; login/checkpoint handoff",
+    "verification": "AdsPower attachment, checkpoint detection, logged-in page/Graph identity match, catalog session passed",
+    "anonymous_and_local_tasks_skip": true
+  },
+  "adspower": {
+    "date": "2026-11-10",
+    "version": "1.6.0",
+    "local_api": "V1",
+    "browser": "AdsPower Chromium",
+    "active_profile_reused": true,
+    "new_profile_start_verified_before_switch": true,
+    "identity_binding": "page actor equals Graph /me identity",
+    "checks": [
+      {
+        "operation": "accounts.list",
+        "ok": true
+      },
+      {
+        "operation": "businesses.list",
+        "ok": true
+      },
+      {
+        "operation": "catalogs.list",
+        "ok": true
+      },
+      {
+        "operation": "catalogs.products.list",
+        "ok": true
+      },
+      {
+        "operation": "catalog.listFeeds",
+        "ok": true
+      },
+      {
+        "operation": "catalog.inspectSession",
+        "ok": true
+      },
+      {
+        "operation": "page.screenshot",
+        "ok": true
+      }
+    ],
+    "checkpoint_detected_in_previous_profile": true,
+    "ad_account_writes": "forbidden",
+    "blocked_registered_mutations": 19,
+    "runner_mode": "read_only",
+    "browser_left_open": true,
+    "key_persisted": false,
+    "catalog_writes_live_verified_in_adspower": true,
+    "new_offline_tests": 25,
+    "readonly_baseline_meta_mutations": 0
+  },
+  "catalog_adspower_write_validation": {
+    "version": "1.6.1",
+    "date": "2026-11-10",
+    "profile_identity_bound": true,
+    "catalog_created": 1,
+    "catalog_vertical": "commerce",
+    "catalog_renamed": true,
+    "csv_rows": 1,
+    "upload_preview_passed": true,
+    "feed_created": true,
+    "import_verified": true,
+    "upload_summary": {
+      "added_or_updated": 1,
+      "removed": 0,
+      "failed": 0,
+      "issues": 0
+    },
+    "product_edits": {
+      "name": {
+        "status": "verified",
+        "updated_items": 1,
+        "errors": [],
+        "other_read_fields_unchanged": true
+      },
+      "url": {
+        "status": "verified",
+        "updated_items": 1,
+        "errors": [],
+        "other_read_fields_unchanged": true
+      },
+      "image_url": {
+        "status": "verified",
+        "updated_items": 1,
+        "errors": [],
+        "other_read_fields_unchanged": true
+      }
+    },
+    "ui_name_url_verified": true,
+    "image_fetch_status": "pending_recrawl_in_UI",
+    "ad_account_writes": 0,
+    "automatic_permissions_enabled": false,
+    "datasets_connected": false,
+    "multiple_product_write_verified": false,
+    "existing_feed_replacement_verified": false,
+    "key_persisted": false
+  }
+}

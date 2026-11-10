@@ -1,0 +1,10 @@
+{
+  "name": "metapapa-workspace",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/metapapa/*.test.mjs",
+    "test:csv": "python3 -m unittest discover -s tests/metapapa -p 'test_*.py'"
+  },
+  "engines": {"node": ">=20"}
+}

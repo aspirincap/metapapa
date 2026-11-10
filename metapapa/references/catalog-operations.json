@@ -1,0 +1,13 @@
+{
+  "observed_on": "2026-11-06",
+  "origin": "https://business.facebook.com",
+  "upload_path": "/product_feeds/upload/",
+  "graphql_path": "/api/graphql/",
+  "operations": {
+    "listFeeds": {"friendly_name": "CatalogDataSourceSelectorV2Query", "doc_id": "24399249673110817"},
+    "preview": {"friendly_name": "useCatalogFeedPreviewQuery", "doc_id": "28580915928257609"},
+    "createFeed": {"friendly_name": "useCreatePrimaryProductFeedMutation", "doc_id": "24497491723184304"},
+    "createUpload": {"friendly_name": "useCreateProductFeedUploadSessionMutation", "doc_id": "9850218955096775"},
+    "feedDetails": {"friendly_name": "CatalogDataSourcesUnifiedDetailsPageQuery", "doc_id": "39512802991700982"}
+  }
+}
