@@ -16,11 +16,11 @@
 
 </div>
 
-从 **选择环境 → 核对个号 → 查询资产 → 导入商品 → 修改字段 → 回读验证**，把重复操作交给 Agent。
+选环境、核对个号、查资产、导入商品、修改字段，再回读结果。这些重复操作可以交给 Agent 处理。
 
-metapapa 是一个包含操作指引、Node.js 客户端和 Python 本地工具的 Skill。无需安装独立浏览器扩展，也无需自建 MCP 服务或申请 OAuth 应用。Meta 操作沿用所选浏览器的当前会话；公开主页 FBID 可先匿名查询。
+metapapa 是一个 Skill，里面有操作指引、Node.js 客户端和 Python 本地工具。它沿用你选定浏览器中的当前会话，不需要额外安装浏览器扩展、搭建 MCP 服务或申请 OAuth 应用。查询公开主页 FBID 时，可以先尝试匿名查询。
 
-> 当前适合有人跟进的单环境任务。Catalog 核心流程已经实测，其他能力按操作区分验收状态。广告账户写入默认禁止。
+> 目前适合在一个环境中使用，并由人跟进执行结果。Catalog 核心流程已经实测，其他操作是否经过验证，要逐项查看。广告账户写入默认禁止。
 
 ---
 
@@ -37,7 +37,7 @@ metapapa 是一个包含操作指引、Node.js 客户端和 Python 本地工具�
 | 🔎 主页 FBID | 匿名 GET 解析公开主页 ID，按授权范围回退浏览器 | 短名路线已实测 |
 | 📊 报表与辅助 | 广告查询/报表客户端、本地 CSV/JSON 整理、时区、TOTP、ID 工具 | 各项实测状态不同 |
 
-通用客户端有 **77 个命名操作（47 读、30 写）**，其中 **19 个写操作默认被拦截**。Catalog 和 FBID 另有专用模块。实现数量不等于已通过生产验证的数量。
+通用客户端实现了 **77 个命名操作（47 读、30 写）**，其中 **19 个写操作默认被拦截**。Catalog 和 FBID 还有各自的专用模块。这些操作并非都经过真实环境验证，具体状态见下面的文档。
 
 → [完整覆盖范围](./metapapa/references/coverage.md) · [功能与接口清单](./metapapa/references/api.md)
 
@@ -45,13 +45,13 @@ metapapa 是一个包含操作指引、Node.js 客户端和 Python 本地工具�
 
 ## 📦 安装方式
 
-在支持 Skill 的 Agent 中直接说：
+在支持 Skill 的 Agent 中，可以直接说：
 
 ```text
 帮我安装这个 Skill：https://github.com/aspirincap/metapapa/tree/main/metapapa
 ```
 
-或在 Codex 的默认 Skill 目录手动安装：
+也可以手动安装到 Codex 的默认 Skill 目录：
 
 ```bash
 git clone https://github.com/aspirincap/metapapa.git
@@ -62,7 +62,7 @@ test ! -e "$HOME/.codex/skills/metapapa" && \
   cp -R metapapa "$HOME/.codex/skills/metapapa"
 ```
 
-也可以从 [Releases](https://github.com/aspirincap/metapapa/releases) 下载仅含 Skill 的 ZIP，解压到你的 Skill 目录。其他 Agent 使用各自的安装目录；浏览器能力是否可用需要单独核对。
+如果不想 clone 仓库，可以从 [Releases](https://github.com/aspirincap/metapapa/releases) 下载仅含 Skill 的 ZIP，解压到 Skill 目录。使用其他 Agent 时，请按它的目录要求安装，并确认它是否提供所需的浏览器能力。
 
 ### 运行依赖
 
@@ -73,14 +73,14 @@ test ! -e "$HOME/.codex/skills/metapapa" && \
 | 现有 Chrome | Node.js 20+；Agent 提供可操作当前 Chrome 的浏览器工具，接口路线还需文档化 CDP 能力 |
 | AdsPower | Node.js 22.12+、已启动的 AdsPower、Local API 权限、Chromium 环境，以及下方可选依赖 |
 
-只有使用 AdsPower 时需要：
+使用 AdsPower 时，还需要安装以下依赖：
 
 ```bash
 cd "$HOME/.codex/skills/metapapa"
 npm ci --ignore-scripts --no-audit --no-fund
 ```
 
-普通 Chrome 和本地工具不需要安装这项 npm 依赖。
+普通 Chrome 模式和本地工具都不需要这项 npm 依赖。
 
 ---
 
@@ -101,7 +101,7 @@ $metapapa 使用我指定的 AdsPower 环境 <环境ID>。
 禁止广告账户写入。
 ```
 
-AdsPower API Key 通过任务内安全输入、runner 标准输入或 `METAPAPA_ADSPOWER_API_KEY` 环境变量提供，不写入仓库、命令行参数、任务文件或日志。密码、验证码和账号解锁在官网完成。
+AdsPower API Key 可以通过任务内安全输入、runner 标准输入或 `METAPAPA_ADSPOWER_API_KEY` 环境变量提供。不要把 Key 写进仓库、命令行参数、任务文件或日志。输入密码、填写验证码和解锁账号都在官网完成。
 
 → [Onboarding](./metapapa/references/onboarding.md) · [Chrome 调用方式](./metapapa/references/browser-workflow.md) · [AdsPower 适配](./metapapa/references/adspower.md)
 
@@ -129,9 +129,9 @@ AdsPower API Key 通过任务内安全输入、runner 标准输入或 `METAPAPA_
 用我提供的图片 URL 替换主图，分别报告 URL 是否保存、Meta 是否已经抓取新图片。
 ```
 
-商品编辑先核对目录、SKU、Meta 商品 ID 和 Feed，再生成计划、执行并回读。已一致的字段跳过；结果未知时先对账，不重复提交。
+编辑商品时，先核对目录、SKU、Meta 商品 ID 和 Feed，再生成修改计划、执行并回读结果。字段已经符合目标值，就跳过；无法确认结果时，先核对当前数据，不重复提交。
 
-**来自 Feed 的手动编辑可能被下一次上传覆盖。** 商品字段修改不等于原 CSV 或 Feed 源文件已更新。
+**手动编辑 Feed 中的商品后，下一次上传可能覆盖这些修改。** 商品字段改了，不代表原 CSV 或 Feed 源文件也已更新。
 
 ### 🔎 查询与本地处理
 
@@ -147,19 +147,19 @@ AdsPower API Key 通过任务内安全输入、runner 标准输入或 `METAPAPA_
 
 ## ✅ 已验证到什么程度
 
-真实环境验收截至 **2026-11-10**：
+截至 **2026-11-10**，已在真实环境中验证以下操作：
 
 - Chrome：资产和 Catalog 部分只读查询、商品分页、单商品 URL/主图 URL/名称修改及恢复。
 - AdsPower：环境连接与身份核对、部分资产查询、目录创建与改名、1 行 CSV 的新 Feed 导入。
 - AdsPower：商品名称、URL、主图 URL 写入和回读通过；导入新增/更新 1、失败 0、问题 0。
-- 最新 AdsPower 图片测试中，**URL 字段已保存，Meta 异步图片抓取仍待完成**。两者不混为一个成功状态。
+- 最新 AdsPower 图片测试中，**URL 字段已保存，Meta 异步图片抓取仍待完成**。链接保存成功不代表图片已抓取完成。
 - 离线回归：**87 项 JavaScript + 24 项 Python 测试通过**。
 
 ### 尚未完整支持
 
-批量商品写入、原 Feed 更新/全量替换、计划导入、分类商品和复杂媒体、多环境并发、长时无人值守恢复未完整验收。AdsPower 当前适配 **Chromium + Local API V1**，Firefox 与 V2 未适配；runner 主要提供通用读取和 Catalog 专用写入，不能视作全部 Meta 模块已迁移。
+批量商品写入、原 Feed 更新/全量替换、计划导入、分类商品和复杂媒体、多环境并发，以及长时无人值守恢复，都还没有完成全面实测。AdsPower 目前适配 **Chromium + Local API V1**，尚未适配 Firefox 与 V2。runner 主要提供通用读取和 Catalog 专用写入，其他 Meta 模块还未全部迁移。
 
-Meta 网页接口及 `doc_id` 可能变化。遇到登录挑战、权限不足、限流或结构变化时，需要核对当前官方页面。
+Meta 的网页接口和 `doc_id` 可能变化。遇到登录挑战、权限不足、限流或结构变化时，需要查看当前官方页面，核对原因。
 
 → [验收范围](./metapapa/references/coverage.md) · [结构化验证摘要](./metapapa/references/verification.json) · [中断恢复](./metapapa/references/recovery.md)
 
@@ -191,7 +191,7 @@ node metapapa/scripts/inspect.mjs
 python3 metapapa/scripts/toolbox.py doctor < /dev/null
 ```
 
-测试使用模拟会话和数据，不登录真实 Facebook，也不会修改真实广告账户。普通离线测试不需要 AdsPower Key。
+测试使用模拟会话和数据，不会登录真实 Facebook，也不会修改真实广告账户。运行这些离线测试不需要 AdsPower Key。
 
 ## 🔗 文档导航
 
@@ -199,4 +199,4 @@ python3 metapapa/scripts/toolbox.py doctor < /dev/null
 
 ## 🌟 关于
 
-面向日常 Meta 资产查询与商品目录维护的实用 Skill。欢迎在 [Issues](https://github.com/aspirincap/metapapa/issues) 反馈可复现问题；请移除账号标识和认证信息后再提供日志。
+遇到可复现的问题，欢迎到 [Issues](https://github.com/aspirincap/metapapa/issues) 反馈。附日志前，请先移除账号标识和认证信息。
