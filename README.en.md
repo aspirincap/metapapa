@@ -20,26 +20,26 @@
 
 metapapa combines an Agent Skill, Node.js clients, and Python utilities. It uses the selected browser's Facebook session without requiring a separate browser extension, custom MCP server, or OAuth application. Public Facebook profile IDs can be resolved anonymously when page metadata is available.
 
-> Intended for supervised tasks in one selected environment. Core Catalog workflows have been tested; validation varies by operation. Advertising account writes are blocked by default.
+> The capabilities below were tested in Codex, with browser operations using one selected environment. Advertising account writes are blocked by default.
 
 ---
 
 ## 📋 Capabilities
 
-| Capability | What it does | Validation |
+| Capability | Live-tested operations | Test environment |
 |---|---|---|
-| 🔌 Onboarding | Choose Chrome or AdsPower, verify the personal account, detect login challenges | Main flows tested |
-| 🗂️ Meta assets | Query ad accounts, businesses, Pages, Pixels / Datasets, and catalogs | Selected operations tested |
-| 📦 Catalog queries | List catalogs, feeds, products, and product sets; check ownership and pagination | Tested |
-| 🛠️ Create and rename | Create a catalog and rename it through Commerce Manager | Tested in AdsPower |
-| 📄 CSV / Feed imports | Validate CSV, upload, preview, create a feed, import, and verify | One-product manual feed tested in AdsPower |
-| ✏️ Product edits | Update product name, destination URL, and main image URL with readback | Single-product writes tested; image fetching verified separately |
-| 🔎 Facebook IDs | Try an anonymous page GET first; use a browser fallback when authorized | Vanity URL routes tested |
-| 📊 Reports and utilities | Reporting clients, CSV/JSON output, timezone, TOTP, and numeric ID tools | Coverage varies by operation |
+| 🔌 Identity checks | Read the current Facebook personal account identity | Chrome, AdsPower |
+| 🔌 AdsPower connection | Start or reuse a profile, match page and API identities, detect a locked account, and disconnect while leaving the browser open | Chromium + Local API V1 |
+| 🗂️ Asset lists | List advertising accounts and businesses | Chrome, AdsPower |
+| 🗂️ Asset details | Read advertising account details and spend caps, business details, Page lists, and Pixel lists | Chrome |
+| 📦 Catalog queries | List catalogs, feeds, and products; paginate through products | Chrome, AdsPower |
+| 📦 Catalog details | Read catalog details, feed details, and product set lists | Chrome |
+| 🛠️ Create and rename | Create a commerce catalog and rename it through Commerce Manager | AdsPower |
+| 📄 CSV / Feed imports | Validate a one-row product CSV, upload and preview it, create a manual feed, import, and verify | AdsPower |
+| ✏️ Product edits | Update one product's name, destination URL, and main image URL with readback; restoring original values was also tested in Chrome | Chrome, AdsPower |
+| 🔎 Facebook IDs | Resolve vanity URLs: one successful anonymous curl GET lookup and two successful logged-in lookups | No browser, Chrome |
 
-The shared client implements **77 named operations: 47 reads and 30 writes**. **19 write operations are blocked by default.** Catalog and profile-ID clients provide additional dedicated methods. Implementation counts are not production validation counts.
-
-→ [Coverage](./metapapa/references/coverage.md) · [Operation reference](./metapapa/references/api.md)
+→ [Test record](./metapapa/references/verification.json)
 
 ---
 
@@ -62,13 +62,13 @@ test ! -e "$HOME/.codex/skills/metapapa" && \
   cp -R metapapa "$HOME/.codex/skills/metapapa"
 ```
 
-A Skill-only ZIP is available in [Releases](https://github.com/aspirincap/metapapa/releases). Other agents have different installation directories and browser capabilities; compatibility must be checked separately.
+A Skill-only ZIP is available in [Releases](https://github.com/aspirincap/metapapa/releases).
 
 ### Requirements
 
 | Route | Requirements |
 |---|---|
-| Local CSV / utilities | Python 3.10+, standard library only |
+| Local CSV validation | Python 3.10+, standard library only |
 | Anonymous Facebook ID lookup | Python 3.10+, curl 7.63+ |
 | Existing Chrome | Node.js 20+ and an agent browser tool that can access the selected Chrome session; API calls additionally require a documented CDP capability |
 | AdsPower | Node.js 22.12+, a running AdsPower app with Local API access, a Chromium profile, and the optional dependency below |
@@ -117,7 +117,7 @@ List the catalogs available to this account, including their business and produc
 
 List all products in the feed I select, and report whether pagination is complete.
 
-Validate this CSV, create a manual feed in the selected catalog,
+Validate this one-product CSV, create a manual feed in the selected catalog,
 then import it and verify the success and error counts.
 ```
 
@@ -129,8 +129,8 @@ then read it back.
 
 Rename SKU EXAMPLE-001 to “Example Product V2”, keeping its SKU and other fields.
 
-Replace the main image using the URL I provide. Report field persistence
-and Meta's image-fetch status separately.
+Set the main image URL of SKU EXAMPLE-001 to the link I provide,
+then read back that field.
 ```
 
 The client verifies the catalog, SKU, Meta product ID, and feed before planning a write. It skips values that already match and reconciles uncertain results before any further submission.
@@ -142,28 +142,25 @@ The client verifies the catalog, SKU, Meta product ID, and feed before planning 
 ```text
 Resolve this public Facebook Page's ID. Try without logging in or opening Chrome first.
 
-List accessible advertising accounts without modifying them, and export JSON.
+List accessible advertising accounts without modifying them.
 
 Check this product CSV for duplicate SKUs, missing fields, and invalid URLs.
 ```
 
 ---
 
-## ✅ Validation and limits
+## ✅ Test results
 
 Live validation as of **November 10, 2026** includes:
 
-- Selected Chrome asset and Catalog reads, product pagination, and single-product URL / main-image URL / name updates and restores.
-- AdsPower connection, identity checks, selected asset reads, catalog creation and renaming, and a one-row CSV import into a new manual feed.
-- AdsPower product name, URL, and main-image URL writes with matching readbacks. The import reported one added/updated item, zero failures, and zero issues.
-- The latest AdsPower image test confirmed **image URL persistence**, while **Meta's asynchronous image fetch was still pending** at the last UI check.
-- **87 JavaScript and 24 Python offline tests passed.**
+- Chrome: one product's name, destination URL, and main image URL were changed and restored, with matching readbacks.
+- AdsPower: one commerce catalog was created and renamed. A one-row CSV was uploaded and imported into a new manual feed, reporting **1** added/updated item, **0** removed, **0** failed, and **0** issues.
+- AdsPower: one product's name, destination URL, and main image URL were each written successfully. Readbacks matched the requested values, and other fetched fields remained unchanged.
+- Facebook IDs: one anonymous vanity URL lookup matched the earlier Chrome result; two logged-in Chrome vanity URL lookups succeeded.
 
-Batch product mutations, existing-feed updates or full replacement, scheduled imports, classified products, complex media, multiple concurrent profiles, and long-running unattended recovery have not been fully validated. AdsPower supports **Chromium + Local API V1**; Firefox and V2 are not adapted. Its runner mainly exposes general reads and dedicated Catalog writes, not all Meta write workflows.
+Separately, **87 JavaScript and 24 Python offline tests passed**, using simulated sessions and data.
 
-Meta's website protocols and `doc_id` values can change. Login challenges, permission failures, rate limits, and schema changes require checking the current official page.
-
-→ [Validation scope](./metapapa/references/coverage.md) · [Structured summary](./metapapa/references/verification.json) · [Recovery](./metapapa/references/recovery.md)
+→ [Structured test summary](./metapapa/references/verification.json)
 
 ---
 

@@ -20,26 +20,26 @@
 
 metapapa 是一个 Skill，里面有操作指引、Node.js 客户端和 Python 本地工具。它沿用你选定浏览器中的当前会话，不需要额外安装浏览器扩展、搭建 MCP 服务或申请 OAuth 应用。查询公开主页 FBID 时，可以先尝试匿名查询。
 
-> 目前适合在一个环境中使用，并由人跟进执行结果。Catalog 核心流程已经实测，其他操作是否经过验证，要逐项查看。广告账户写入默认禁止。
+> 以下能力已在 Codex 中实测，浏览器操作使用单个选定环境。广告账户写入默认禁止。
 
 ---
 
 ## 📋 能力一览
 
-| 能力 | 可以做什么 | 当前状态 |
+| 能力 | 已实测操作 | 实测环境 |
 |---|---|---|
-| 🔌 登录与环境 | 引导 Chrome / AdsPower 登录，核对个人身份，检测登录挑战 | 主要流程已实测 |
-| 🗂️ Meta 资产查询 | 查询广告账户、BM、主页、Pixel / Dataset、Catalog 等 | 部分操作已实测，详见接口清单 |
-| 📦 Catalog 查询 | 列目录、Feed、商品和商品集，核对分页与归属 | 已实测 |
-| 🛠️ 创建与改名 | 官网创建目录、修改目录名称 | AdsPower 已实测 |
-| 📄 CSV / Feed 导入 | 预检 CSV、上传预览、新建 Feed、导入并核对结果 | AdsPower 单商品手动 Feed 已实测 |
-| ✏️ 商品编辑 | 修改商品名称、落地页 URL、主图 URL，并逐项回读 | 单商品已实测；图片抓取另行核验 |
-| 🔎 主页 FBID | 匿名 GET 解析公开主页 ID，按授权范围回退浏览器 | 短名路线已实测 |
-| 📊 报表与辅助 | 广告查询/报表客户端、本地 CSV/JSON 整理、时区、TOTP、ID 工具 | 各项实测状态不同 |
+| 🔌 身份核对 | 读取当前 Facebook 个号身份 | Chrome、AdsPower |
+| 🔌 AdsPower 连接 | 启动或复用环境，核对页面与接口身份，检测账号锁定，断开后保留窗口 | Chromium + Local API V1 |
+| 🗂️ 资产列表 | 列出广告账户和 BM | Chrome、AdsPower |
+| 🗂️ 资产详情 | 查询广告账户详情与限额、BM 详情、主页列表、Pixel 列表 | Chrome |
+| 📦 Catalog 查询 | 列出目录、Feed 和商品，按分页读取商品 | Chrome、AdsPower |
+| 📦 Catalog 详情 | 查询目录详情、Feed 详情和商品集列表 | Chrome |
+| 🛠️ 创建与改名 | 在官网创建 commerce 目录、修改目录名称 | AdsPower |
+| 📄 CSV / Feed 导入 | 预检 1 行商品 CSV、上传预览、新建手动 Feed、导入并核对结果 | AdsPower |
+| ✏️ 商品编辑 | 修改单个商品的名称、落地页 URL、主图 URL，并逐项回读；Chrome 还验证了恢复原值 | Chrome、AdsPower |
+| 🔎 主页 FBID | 从短名主页链接查询 FBID：匿名 curl GET 成功 1 例，登录会话查询成功 2 例 | 无浏览器、Chrome |
 
-通用客户端实现了 **77 个命名操作（47 读、30 写）**，其中 **19 个写操作默认被拦截**。Catalog 和 FBID 还有各自的专用模块。这些操作并非都经过真实环境验证，具体状态见下面的文档。
-
-→ [完整覆盖范围](./metapapa/references/coverage.md) · [功能与接口清单](./metapapa/references/api.md)
+→ [实测记录](./metapapa/references/verification.json)
 
 ---
 
@@ -62,13 +62,13 @@ test ! -e "$HOME/.codex/skills/metapapa" && \
   cp -R metapapa "$HOME/.codex/skills/metapapa"
 ```
 
-如果不想 clone 仓库，可以从 [Releases](https://github.com/aspirincap/metapapa/releases) 下载仅含 Skill 的 ZIP，解压到 Skill 目录。使用其他 Agent 时，请按它的目录要求安装，并确认它是否提供所需的浏览器能力。
+如果不想 clone 仓库，可以从 [Releases](https://github.com/aspirincap/metapapa/releases) 下载仅含 Skill 的 ZIP，解压到 Skill 目录。
 
 ### 运行依赖
 
 | 路线 | 需要什么 |
 |---|---|
-| 本地 CSV / 账户辅助 | Python 3.10+，使用标准库 |
+| 本地 CSV 预检 | Python 3.10+，使用标准库 |
 | 匿名 FBID | Python 3.10+、curl 7.63+ |
 | 现有 Chrome | Node.js 20+；Agent 提供可操作当前 Chrome 的浏览器工具，接口路线还需文档化 CDP 能力 |
 | AdsPower | Node.js 22.12+、已启动的 AdsPower、Local API 权限、Chromium 环境，以及下方可选依赖 |
@@ -116,7 +116,7 @@ AdsPower API Key 可以通过任务内安全输入、runner 标准输入或 `MET
 
 查看我指定目录中的 Feed，再列出这个 Feed 的全部商品，说明分页是否完整。
 
-检查这份 CSV，在指定目录中新建一个手动 Feed，导入后核对成功数和错误。
+检查这份单商品 CSV，在指定目录中新建一个手动 Feed，导入后核对成功数和错误。
 ```
 
 ### ✏️ 商品编辑
@@ -126,7 +126,7 @@ AdsPower API Key 可以通过任务内安全输入、runner 标准输入或 `MET
 
 把 SKU EXAMPLE-001 改名为“示例商品新版”，保留 SKU 和其他字段。
 
-用我提供的图片 URL 替换主图，分别报告 URL 是否保存、Meta 是否已经抓取新图片。
+把 SKU EXAMPLE-001 的主图 URL 改为我提供的链接，写入后回读该字段。
 ```
 
 编辑商品时，先核对目录、SKU、Meta 商品 ID 和 Feed，再生成修改计划、执行并回读结果。字段已经符合目标值，就跳过；无法确认结果时，先核对当前数据，不重复提交。
@@ -138,30 +138,25 @@ AdsPower API Key 可以通过任务内安全输入、runner 标准输入或 `MET
 ```text
 查询这个 Facebook 公共主页的 FBID，先尝试不登录、不打开 Chrome。
 
-只读列出当前可访问的广告账户，并导出 JSON。
+只读列出当前可访问的广告账户。
 
 预检这份商品 CSV，列出重复 SKU、缺失字段和无效 URL。
 ```
 
 ---
 
-## ✅ 已验证到什么程度
+## ✅ 实测结果
 
 截至 **2026-11-10**，已在真实环境中验证以下操作：
 
-- Chrome：资产和 Catalog 部分只读查询、商品分页、单商品 URL/主图 URL/名称修改及恢复。
-- AdsPower：环境连接与身份核对、部分资产查询、目录创建与改名、1 行 CSV 的新 Feed 导入。
-- AdsPower：商品名称、URL、主图 URL 写入和回读通过；导入新增/更新 1、失败 0、问题 0。
-- 最新 AdsPower 图片测试中，**URL 字段已保存，Meta 异步图片抓取仍待完成**。链接保存成功不代表图片已抓取完成。
-- 离线回归：**87 项 JavaScript + 24 项 Python 测试通过**。
+- Chrome：单商品名称、落地页 URL、主图 URL 修改并恢复原值，回读与目标一致。
+- AdsPower：创建 1 个 commerce 目录并改名；上传 1 行 CSV，新建手动 Feed 并完成导入，新增/更新 **1**、移除 **0**、失败 **0**、问题 **0**。
+- AdsPower：单商品名称、落地页 URL、主图 URL 分别写入成功，回读与目标一致，其余已读取字段保持不变。
+- FBID：匿名短名查询成功 1 例，结果与此前 Chrome 查询一致；Chrome 短名查询成功 2 例。
 
-### 尚未完整支持
+另有 **87 项 JavaScript + 24 项 Python 离线测试通过**，使用模拟会话和数据。
 
-批量商品写入、原 Feed 更新/全量替换、计划导入、分类商品和复杂媒体、多环境并发，以及长时无人值守恢复，都还没有完成全面实测。AdsPower 目前适配 **Chromium + Local API V1**，尚未适配 Firefox 与 V2。runner 主要提供通用读取和 Catalog 专用写入，其他 Meta 模块还未全部迁移。
-
-Meta 的网页接口和 `doc_id` 可能变化。遇到登录挑战、权限不足、限流或结构变化时，需要查看当前官方页面，核对原因。
-
-→ [验收范围](./metapapa/references/coverage.md) · [结构化验证摘要](./metapapa/references/verification.json) · [中断恢复](./metapapa/references/recovery.md)
+→ [结构化验证摘要](./metapapa/references/verification.json)
 
 ---
 
